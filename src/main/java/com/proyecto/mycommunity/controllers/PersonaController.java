@@ -32,10 +32,10 @@ public class PersonaController {
     @Autowired
     private IPersonaService personaService;
 
-    @GetMapping(value = "/ver/{rut}")
-    public String ver(@PathVariable(value = "rut") int rut, Map<String, Object> model, RedirectAttributes flash) {
+    @GetMapping(value = "/ver/{id}")
+    public String ver(@PathVariable(value = "id") long id, Map<String, Object> model, RedirectAttributes flash) {
 
-        Persona persona = personaService.findOne(rut);
+        Persona persona = personaService.fetchByIdWithFacturas(id);
         if (persona == null) {
             flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
             return "redirect:/listar";
@@ -45,7 +45,7 @@ public class PersonaController {
         return "ver";
     }
 
-    @RequestMapping(value = "/listar", method = RequestMethod.GET)
+    @RequestMapping(value = {"/listar", "/"}, method = RequestMethod.GET)
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
 
         Pageable pageRequest = PageRequest.of(page, 4);

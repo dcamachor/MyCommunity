@@ -7,7 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "personas")
@@ -29,12 +31,16 @@ public class Persona implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date createAt;
-	@NotEmpty
+	//@NotEmpty
 	//private Direccion idDireccion;
+
+	@OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Factura> facturas;
 
 	private static final long serialVersionUID = 1L;
 
 	public Persona() {
+		facturas = new ArrayList<Factura>();
 	}
 
 	public int getRut() {

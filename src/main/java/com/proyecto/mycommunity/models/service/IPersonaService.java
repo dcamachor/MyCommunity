@@ -18,6 +18,8 @@ public interface IPersonaService {
 
 	public Persona findOne(int rut);
 
+	public Persona fetchByIdWithFacturas(Long id);
+
 	public void delete(int	rut);
 
 	//modificar para agregar direccion
@@ -31,5 +33,7 @@ public interface IPersonaService {
 	public Factura findFacturaById(Long id);
 	
 	public void deleteFactura(Long id);
+
+	public Factura fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(Long id);
 
 }
