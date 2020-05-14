@@ -31,9 +31,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="persona: ${personas}">
-                    <td><a class="btn btn-primary btn-xs"
-                           th:href="@{/ver/} + ${persona.rut}" th:text="${persona.rut}"></a></td>
-                    <td th:text="${persona.rut}"></td>
+                    <td><a class="btn btn-primary btn-xs"th:href="@{/ver/} + ${persona.rut}" th:text="${persona.rut}"></a></td>
                     <td th:text="${persona.nombre}"></td>
                     <td th:text="${persona.apellido}"></td>
                     <td th:text="${persona.telefono}"></td>
@@ -56,6 +54,7 @@
     </div>
 
 </div>
+
 
 <footer th:replace="layout/layout :: footer"></footer>
 </body>

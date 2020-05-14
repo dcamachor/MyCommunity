@@ -50,7 +50,7 @@ public class FacturaController {
     }
 
     @GetMapping("/form/{personaId}")
-    public String crear(@PathVariable(value = "personaId") int personaId, Map<String, Object> model,
+    public String crear(@PathVariable(value = "personaId") Integer personaId, Map<String, Object> model,
                         RedirectAttributes flash) {
 
         Persona persona = personaService.findOne(personaId);
