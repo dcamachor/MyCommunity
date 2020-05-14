@@ -5,7 +5,11 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.proyecto.mycommunity.models.entity.*;
+import com.proyecto.mycommunity.models.entity.Factura;
+import com.proyecto.mycommunity.models.entity.ItemFactura;
+import com.proyecto.mycommunity.models.entity.Persona;
+import com.proyecto.mycommunity.models.entity.Producto;
+import com.proyecto.mycommunity.models.service.IPersonaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.proyecto.mycommunity.models.service.IPersonaService;
 
 @Controller
 @RequestMapping("/factura")
@@ -50,7 +52,7 @@ public class FacturaController {
     }
 
     @GetMapping("/form/{personaId}")
-    public String crear(@PathVariable(value = "personaId") Integer personaId, Map<String, Object> model,
+    public String crear(@PathVariable(value = "personaId") int personaId, Map<String, Object> model,
                         RedirectAttributes flash) {
 
         Persona persona = personaService.findOne(personaId);

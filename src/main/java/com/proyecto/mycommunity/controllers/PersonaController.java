@@ -4,7 +4,6 @@ package com.proyecto.mycommunity.controllers;
 import java.util.Map;
 
 import com.proyecto.mycommunity.models.entity.Persona;
-import com.proyecto.mycommunity.models.service.IUploadFileService;
 import com.proyecto.mycommunity.util.paginator.PageRender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,27 +31,7 @@ public class PersonaController {
 
     @Autowired
     private IPersonaService personaService;
-    /*
-        @Autowired
-        private IUploadFileService uploadFileService;
 
-
-            @GetMapping(value = "/uploads/{filename:.+}")
-            public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
-
-                Resource recurso = null;
-
-                try {
-                    recurso = uploadFileService.load(filename);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"")
-                        .body(recurso);
-            }
-        */
     @GetMapping(value = "/ver/{rut}")
     public String ver(@PathVariable(value = "rut") int rut, Map<String, Object> model, RedirectAttributes flash) {
 
@@ -109,7 +88,6 @@ public class PersonaController {
         return "form";
     }
 
-    // para agregar fotos
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public String guardar(@Valid Persona persona, BindingResult result, Model model,/* @RequestParam("file") MultipartFile foto,*/ RedirectAttributes flash, SessionStatus status) {
 
@@ -118,32 +96,7 @@ public class PersonaController {
             return "form";
         }
 
-       /* if (!foto.isEmpty()) {
-            if (persona.getRut() != null && persona.getRut() > 0 && persona.getFoto() != null
-                    && persona.getFoto().length() > 0) {
-                uploadFileService.delete(cliente.getFoto());
-            }
-            String uniqueFilename = null;
-            try {
-                uniqueFilename = uploadFileService.copy(foto);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            flash.addFlashAttribute("info", "Has subido correctamente '" + uniqueFilename + "'");
-            cliente.setFoto(uniqueFilename);
-        } */
-
-       /* String mensajeFlash;
-        if (persona.getRut() != 0){
-            ;
-            return String mensajeFlash = ("Cliente creado con éxito!");
-
-        } else {
-            return "Cliente editado con éxito!";
-        }
-*/
-
-        String mensajeFlash = (persona.getRut() == 0) ? "Cliente creado con éxito!":"Cliente editado con éxito!" ;
+        String mensajeFlash = (persona.getRut() == 0) ? "Persona creada con éxito!" : "Persona editada con éxito!";
 
         personaService.save(persona);
         status.setComplete();
@@ -159,11 +112,6 @@ public class PersonaController {
 
             personaService.delete(rut);
             flash.addFlashAttribute("success", "Cliente eliminado con éxito!");
-        /* para eliminar foto
-            if (uploadFileService.delete(persona.getFoto())) {
-                flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada con exito!");
-            }
-*/
         }
         return "redirect:/listar";
     }
