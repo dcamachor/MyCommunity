@@ -48,8 +48,8 @@ public class PersonaServiceImpl implements IPersonaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Persona fetchByIdWithFacturas(Long id) {
-        return personaDao.fetchByIdWithFacturas(id);
+    public Persona fetchByIdWithFacturas(int rut) {
+        return personaDao.fetchByIdWithFacturas(rut);
     }
 
     @Override

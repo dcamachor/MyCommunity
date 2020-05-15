@@ -4,7 +4,7 @@
     <head th:fragment="head">
         <meta charset="UTF-8"/>
         <title
-                th:text="'My Community - ' + ${titulo}"></title>
+                th:text="'My Community' + ${titulo}"></title>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}"/>
     </head>
@@ -24,7 +24,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#about"
-                               th:href="@{/listar}">Cliente
+                               th:href="@{/listar}">Persona
                             </a>
                         </li>
                     </ul>
@@ -85,8 +85,6 @@
                     Boot
                 </a>
                 y<a href="http://www.thymeleaf.org">Thymeleaf</a>.
-            </p>
-            <p>
             </p>
             <!-- Optional JavaScript -->
             <!-- jQuery first, then Bootstrap JS -->

@@ -32,10 +32,10 @@ public class PersonaController {
     @Autowired
     private IPersonaService personaService;
 
-    @GetMapping(value = "/ver/{id}")
-    public String ver(@PathVariable(value = "id") long id, Map<String, Object> model, RedirectAttributes flash) {
+    @GetMapping(value = "/ver/{rut}")
+    public String ver(@PathVariable(value = "rut") int rut, Map<String, Object> model, RedirectAttributes flash) {
 
-        Persona persona = personaService.fetchByIdWithFacturas(id);
+        Persona persona = personaService.fetchByIdWithFacturas(rut);
         if (persona == null) {
             flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
             return "redirect:/listar";

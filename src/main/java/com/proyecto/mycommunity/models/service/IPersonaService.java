@@ -10,30 +10,30 @@ import org.springframework.data.domain.Pageable;
 
 public interface IPersonaService {
 
-	public List<Persona> findAll();
+    public List<Persona> findAll();
 
-	public Page<Persona> findAll(Pageable pageable);
+    public Page<Persona> findAll(Pageable pageable);
 
-	public void save(Persona persona);
+    public void save(Persona persona);
 
-	public Persona findOne(int rut);
+    public Persona findOne(int rut);
 
-	public Persona fetchByIdWithFacturas(Long id);
+    public Persona fetchByIdWithFacturas(int rut);
 
-	public void delete(int	rut);
+    public void delete(int rut);
 
-	//modificar para agregar direccion
+    //modificar para agregar direccion
 
-	public List<Producto> findByNombre(String term);
-	
-	public void saveFactura(Factura factura);
-	
-	public Producto findProductoById(Long id);
-	
-	public Factura findFacturaById(Long id);
-	
-	public void deleteFactura(Long id);
+    public List<Producto> findByNombre(String term);
 
-	public Factura fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(Long id);
+    public void saveFactura(Factura factura);
+
+    public Producto findProductoById(Long id);
+
+    public Factura findFacturaById(Long id);
+
+    public void deleteFactura(Long id);
+
+    public Factura fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(Long id);
 
 }

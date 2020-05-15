@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -41,14 +42,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    //@Autowired
+    @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
 
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         UserBuilder users = User.builder().passwordEncoder(encoder::encode);
 
         build.inMemoryAuthentication()
-                .withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
-                .withUser(users.username("andres").password("12345").roles("USER"));
+                .withUser(users.username("admin").password("123").roles("ADMIN", "USER"))
+                .withUser(users.username("diego").password("123").roles("USER"));
     }
 }

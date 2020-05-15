@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 
-public interface IPersonaDao extends PagingAndSortingRepository<Persona, Integer>{
+public interface IPersonaDao extends PagingAndSortingRepository<Persona, Integer> {
 
 
     @Query("select p from Persona p left join fetch p.facturas f where p.rut=?1")
-    public Persona fetchByIdWithFacturas(Long id);
+    public Persona fetchByIdWithFacturas(int rut);
 
 }
