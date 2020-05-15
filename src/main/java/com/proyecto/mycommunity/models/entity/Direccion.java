@@ -10,6 +10,13 @@ public class Direccion {
     public Direccion() {
     }
 
+    public Direccion(int idDireccion, String calle, int nCalle, Comuna idComuna) {
+        this.idDireccion = idDireccion;
+        this.calle = calle;
+        this.nCalle = nCalle;
+        this.idComuna = idComuna;
+    }
+
     public int getIdDireccion() {
         return idDireccion;
     }
