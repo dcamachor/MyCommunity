@@ -1,7 +1,5 @@
 package com.proyecto.mycommunity.models.entity.wait;
 
-import com.proyecto.mycommunity.models.entity.Usuario;
-
 public class Departamento {
 
     private int idDepartamento;

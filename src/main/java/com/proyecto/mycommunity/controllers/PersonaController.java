@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.proyecto.mycommunity.models.entity.Persona;
 import com.proyecto.mycommunity.util.paginator.PageRender;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +46,7 @@ public class PersonaController {
         return "ver";
     }
 
-    @RequestMapping(value = {"/listar", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/listar"}, method = RequestMethod.GET)
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
 
         Pageable pageRequest = PageRequest.of(page, 4);
@@ -57,6 +58,12 @@ public class PersonaController {
         model.addAttribute("personas", personas);
         model.addAttribute("page", pageRender);
         return "listar";
+    }
+
+    @GetMapping(value = {"/home", "/"})
+    public String ingresar(Model model){
+        model.addAttribute("titulo", "Bienvenido a My Community");
+        return "home";
     }
 
     @RequestMapping(value = "/form")
