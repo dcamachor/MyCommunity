@@ -5,11 +5,16 @@ import java.util.Map;
 
 import com.proyecto.mycommunity.models.entity.Persona;
 import com.proyecto.mycommunity.util.paginator.PageRender;
-import org.dom4j.rule.Mode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +35,12 @@ import javax.validation.Valid;
 @SessionAttributes("persona")
 public class PersonaController {
 
+    protected final Log logger = LogFactory.getLog(this.getClass());
+
     @Autowired
     private IPersonaService personaService;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/ver/{rut}")
     public String ver(@PathVariable(value = "rut") int rut, Map<String, Object> model, RedirectAttributes flash) {
 
@@ -41,7 +49,7 @@ public class PersonaController {
             flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
             return "redirect:/listar";
         }
-        model.put("cliente", persona);
+        model.put("persona", persona);
         model.put("titulo", "Detalle cliente: " + persona.getNombre());
         return "ver";
     }
@@ -61,11 +69,12 @@ public class PersonaController {
     }
 
     @GetMapping(value = {"/home", "/"})
-    public String ingresar(Model model){
+    public String ingresar(Model model) {
         model.addAttribute("titulo", "Bienvenido a My Community");
         return "home";
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/form")
     public String crear(Map<String, Object> model) {
 
@@ -122,4 +131,5 @@ public class PersonaController {
         }
         return "redirect:/listar";
     }
+
 }

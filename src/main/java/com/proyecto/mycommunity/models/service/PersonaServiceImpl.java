@@ -37,7 +37,6 @@ public class PersonaServiceImpl implements IPersonaService {
     @Transactional
     public void save(Persona persona) {
         personaDao.save(persona);
-
     }
 
     @Override
@@ -100,6 +99,5 @@ public class PersonaServiceImpl implements IPersonaService {
     public Factura fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(Long id) {
         return facturaDao.fetchByIdWithPersonaWhithItemFacturaWithProducto(id);
     }
-
 
 }

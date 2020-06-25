@@ -13,6 +13,7 @@ import com.proyecto.mycommunity.models.service.IPersonaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Secured("ROLE_ADMIN")
 @Controller
 @RequestMapping("/factura")
 @SessionAttributes("factura")
@@ -39,8 +41,7 @@ public class FacturaController {
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 
-        Factura factura = personaService.fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(id);
-        // clienteService.findFacturaById(id);
+        Factura factura = personaService.fetchFacturaByIdWithPersonaWhithItemFacturaWithProducto(id); // clienteService.findFacturaById(id);
 
         if (factura == null) {
             flash.addFlashAttribute("error", "La factura no existe en la base de datos!");
@@ -49,18 +50,17 @@ public class FacturaController {
 
         model.addAttribute("factura", factura);
         model.addAttribute("titulo", "Factura: ".concat(factura.getDescripcion()));
-
         return "factura/ver";
     }
 
-    @GetMapping("/form/{personaId}")
-    public String crear(@PathVariable(value = "personaId") int personaId, Map<String, Object> model,
+    @GetMapping("/form/{personaRut}")
+    public String crear(@PathVariable(value = "personaRut") Integer personaRut, Map<String, Object> model,
                         RedirectAttributes flash) {
 
-        Persona persona = personaService.findOne(personaId);
+        Persona persona = personaService.findOne(personaRut);
 
         if (persona == null) {
-            flash.addFlashAttribute("error", "La Persona no existe en la base de datos");
+            flash.addFlashAttribute("error", "La persona no existe en la base de datos");
             return "redirect:/listar";
         }
 
@@ -73,18 +73,15 @@ public class FacturaController {
         return "factura/form";
     }
 
-    @GetMapping(value = "/cargar-productos/{term}", produces = {"application/json"})
-    public @ResponseBody
-    List<Producto> cargarProductos(@PathVariable String term) {
+    @GetMapping(value = "/cargar-productos/{term}", produces = { "application/json" })
+    public @ResponseBody List<Producto> cargarProductos(@PathVariable String term) {
         return personaService.findByNombre(term);
     }
 
     @PostMapping("/form")
-    public String guardar(@Valid Factura factura,
-                          BindingResult result, Model model,
+    public String guardar(@Valid Factura factura, BindingResult result, Model model,
                           @RequestParam(name = "item_id[]", required = false) Long[] itemId,
-                          @RequestParam(name = "cantidad[]", required = false) Integer[] cantidad,
-                          RedirectAttributes flash,
+                          @RequestParam(name = "cantidad[]", required = false) Integer[] cantidad, RedirectAttributes flash,
                           SessionStatus status) {
 
         if (result.hasErrors()) {
