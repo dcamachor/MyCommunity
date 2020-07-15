@@ -6,7 +6,7 @@ public class Usuario extends Persona {
 
     private int idUsuario;
     private String contraseña;
-    private String estado;
+    private boolean estado;
     private Date fechaCreacion;
     private String imagen;
     private Persona rut;

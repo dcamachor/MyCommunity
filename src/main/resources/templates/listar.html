@@ -21,7 +21,6 @@
                 <tr>
                     <th sec:authorize="hasRole('ROLE_USER')">rut</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
                     <th>Telefono</th>
                     <th>Email</th>
                     <th>Fecha</th>
@@ -35,8 +34,7 @@
                     <td sec:authorize="hasRole('ROLE_USER')">
                         <a class="btn btn-primary btn-xs" th:href="@{/ver/} + ${persona.rut}"
                            th:text="${persona.rut}"></a></td>
-                    <td th:text="${persona.nombre}"></td>
-                    <td th:text="${persona.apellido}"></td>
+                    <td th:text="${persona.nombre + ' ' +persona.apellido}"></td>
                     <td th:text="${persona.telefono}"></td>
                     <td th:text="${persona.email}"></td>
                     <td th:text="${persona.createAt}"></td>

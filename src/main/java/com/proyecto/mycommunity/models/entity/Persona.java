@@ -26,16 +26,21 @@ public class Persona implements Serializable {
     @NotEmpty
     @Email
     private String email;
-    @NotNull
+   // @NotNull
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    //@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     private Date createAt;
     //@NotEmpty
     //private Direccion idDireccion;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Factura> facturas;
+
+    @PrePersist
+    public void prePersist() {
+        createAt = new Date();
+    }
 
     private static final long serialVersionUID = 1L;
 
