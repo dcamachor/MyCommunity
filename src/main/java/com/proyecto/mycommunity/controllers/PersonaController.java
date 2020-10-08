@@ -1,6 +1,7 @@
 package com.proyecto.mycommunity.controllers;
 
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.proyecto.mycommunity.models.entity.Persona;
@@ -13,8 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.proyecto.mycommunity.models.service.IPersonaService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -55,9 +61,19 @@ public class PersonaController {
     }
 
     @RequestMapping(value = {"/listar"}, method = RequestMethod.GET)
-    public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+    public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication authentication, HttpServletRequest request) {
 
-        Pageable pageRequest = PageRequest.of(page, 4);
+        if (authentication != null) {
+            logger.info("Hola usuario autenticado, tu user es: ".concat(authentication.getName()));
+        }
+
+        if (hasRole("ROLE_ADMIN")) {
+            logger.info("Hola ".concat(authentication.getName().concat(" tienes acceso!")));
+        } else {
+            logger.info("Hola  ".concat(authentication.getName().concat(" NO tienes acceso!")));
+        }
+
+        Pageable pageRequest = PageRequest.of(page, 10);
 
         Page<Persona> personas = personaService.findAll(pageRequest);
 
@@ -130,6 +146,34 @@ public class PersonaController {
             flash.addFlashAttribute("success", "Cliente eliminado con éxito!");
         }
         return "redirect:/listar";
+    }
+
+    private boolean hasRole(String role) {
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        if (context == null) {
+            return false;
+        }
+
+        Authentication authentication = context.getAuthentication();
+        if (context == null) {
+            return false;
+        }
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        return authorities.contains(new SimpleGrantedAuthority(role));
+
+       /* for (GrantedAuthority authority : authorities) {
+            if (role.equals(authority.getAuthority())) {
+                logger.info("Hola Usuario ".concat(authentication.getName().concat(" tu role es: ".concat(authority.getAuthority()))));
+                return false;
+            }
+        }
+        return false;
+
+
+        */
     }
 
 }
