@@ -13,24 +13,25 @@ public class Usuario /*extends Persona*/ implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "id")
-    private int idUsuario;
+    //@JoinColumn(name = "id")
+    private int id;
+
+    @Column(unique = true)
+    //@JoinColumn(name = "rut")
+    private int rut;
 
     @Column(unique = true)
     private String password;
 
     private boolean estado;
+
+    private String foto;
     private Date fechaCreacion;
-    private String imagen;
 
-    @Column(unique = true)
-    @JoinColumn(name = "rut")
-    private int rut;
-
-   /* @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "rut")
-    private Persona persona;
-*/
+    /* @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+     @JoinColumn(name = "rut")
+     private Persona persona;
+ */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "idUsuario")
     private List<Role> roles;
@@ -38,12 +39,30 @@ public class Usuario /*extends Persona*/ implements Serializable {
     public Usuario() {
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+
+    /*  public Persona getPersona() {
+            return persona;
+        }
+
+        public void setPersona(Persona persona) {
+            this.persona = persona;
+        }
+    */
+
+    public int getId() {
+        return id;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRut() {
+        return rut;
+    }
+
+    public void setRut(int rut) {
+        this.rut = rut;
     }
 
     public String getPassword() {
@@ -62,6 +81,14 @@ public class Usuario /*extends Persona*/ implements Serializable {
         this.estado = estado;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -70,30 +97,6 @@ public class Usuario /*extends Persona*/ implements Serializable {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-
-    public int getRut() {
-        return rut;
-    }
-    public void setRut(int rut) {
-        this.rut = rut;
-    }
-
-    /*  public Persona getPersona() {
-            return persona;
-        }
-
-        public void setPersona(Persona persona) {
-            this.persona = persona;
-        }
-    */
     public List<Role> getRoles() {
         return roles;
     }
